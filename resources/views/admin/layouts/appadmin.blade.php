@@ -62,6 +62,61 @@
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
+            <li class="nav-item {{ request()->is('admin/navigations*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.navigations.index') }}">
+                    <i class="fas fa-fw fa-bars"></i>
+                    <span>Menu</span>
+                </a>
+            </li>
+
+            <li class="nav-item {{ request()->is('admin/banners*') ? 'active' : '' }}">
+
+                <a class="nav-link {{ request()->is('admin/banners*') ? '' : 'collapsed' }}" href="#"
+                    data-toggle="collapse" data-target="#collapseBanner"
+                    aria-expanded="{{ request()->is('admin/banners*') ? 'true' : 'false' }}"
+                    aria-controls="collapseBanner">
+
+                    <i class="fas fa-fw fa-images"></i>
+
+                    <span>Banners</span>
+
+                </a>
+
+
+                <div id="collapseBanner" class="collapse {{ request()->is('admin/banners*') ? 'show' : '' }}"
+                    aria-labelledby="headingBanner" data-parent="#accordionSidebar">
+
+                    <div class="bg-white py-2 collapse-inner rounded">
+
+                        <h6 class="collapse-header">
+                            Banner Management:
+                        </h6>
+
+
+                        {{-- Home Banner --}}
+                        <a class="collapse-item
+                {{ request()->is('admin/banners/1*') ? 'active' : '' }}"
+                            href="{{ route('admin.banners.index', ['type' => 1]) }}">
+
+                            Home Banner
+
+                        </a>
+
+
+                        {{-- Page Banners --}}
+                        <a class="collapse-item
+                {{ request()->is('admin/banners/2*') ? 'active' : '' }}"
+                            href="{{ route('admin.banners.index', ['type' => 2]) }}">
+
+                            Page Banners
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
