@@ -3,8 +3,15 @@
 @extends('admin.layouts.appadmin')
 
 
-@section('title', $banner->exists ? ($type == 1 ? 'Edit Home Banner' : 'Edit Page Banner') : ($type == 1 ? 'Add Home
-    Banner' : 'Add Page Banner'))
+@section('title',
+    $banner->exists
+    ? ($type == 1
+    ? 'Edit Home Banner'
+    : 'Edit Page Banner')
+    : ($type == 1
+    ? 'Add Home
+    Banner'
+    : 'Add Page Banner'))
 
 
 @section('content')
@@ -27,8 +34,7 @@
             </h1>
 
 
-            <a href="{{ route('admin.banners.index', ['type' => $type]) }}"
-                class="btn btn-secondary btn-sm">
+            <a href="{{ route('admin.banners.index', ['type' => $type]) }}" class="btn btn-secondary btn-sm">
 
                 <i class="fas fa-arrow-left"></i>
 
@@ -102,8 +108,7 @@
 
                                 <input type="text" name="title" id="title"
                                     class="form-control @error('title') is-invalid @enderror"
-                                    value="{{ old('title', $banner->title) }}"
-                                    placeholder="Enter banner title">
+                                    value="{{ old('title', $banner->title) }}" placeholder="Enter banner title">
 
 
                                 @error('title')
@@ -153,56 +158,54 @@
 
                         <!-- Image -->
 
-                        <div class="col-md-6">
 
-                            <div class="form-group">
 
-                                <label for="image">
+                        {{-- =====================================================
+                            Image
+                        ====================================================== --}}
 
-                                    Banner Image
+                        <div class="form-group col-md-6 px-0">
 
-                                    <span class="text-danger">
-                                        *
-                                    </span>
+                            <label>
+                                <strong>
+                                    Image
 
+                                    @if (!$banner->exists)
+                                        <span class="text-danger">*</span>
+                                    @endif
+
+                                </strong>
+                            </label>
+
+
+                            <div class="custom-file mb-3">
+
+                                <input type="file" class="custom-file-input @error('image') is-invalid @enderror"
+                                    id="image" name="image" accept=".svg,.png,.jpg,.jpeg,.webp">
+
+                                <label class="custom-file-label" id="image_label" for="image">
+                                    {{ $banner->image ?: 'Choose file' }}
                                 </label>
 
-
-                                <input type="file" name="image" id="image"
-                                    class="form-control-file @error('image') is-invalid @enderror"
-                                    accept=".jpg,.jpeg,.png,.webp">
-
-
-                                <small class="form-text text-muted">
-
-                                    Image must be exactly
-                                    1920 × 1080 pixels.
-
-                                    Maximum size: 2MB.
-
-                                </small>
-
-
-                                @error('image')
-                                    <div class="text-danger mt-1">
-
-                                        {{ $message }}
-
-                                    </div>
-                                @enderror
-
-
-
-                                @if ($banner->exists && $banner->image)
-                                    <div class="mt-3">
-
-                                        <img src="{{ asset('uploads/banners/' . $banner->image) }}"
-                                            alt="{{ $banner->title }}" width="300" class="img-thumbnail">
-
-                                    </div>
-                                @endif
-
                             </div>
+
+
+                            <img id="uploaded_img"
+                                src="{{ $banner->image ? asset('uploads/banners/' . $banner->image) : asset('img/upload_image.png') }}"
+                                style="max-width: 300px;">
+
+
+                            <small class="form-text text-muted">
+                                Allowed formats: SVG, PNG, JPG, JPEG, WEBP.
+                                Maximum size: 2MB.
+                            </small>
+
+
+                            @error('image')
+                                <small class="text-danger">
+                                    {{ $message }}
+                                </small>
+                            @enderror
 
                         </div>
 
@@ -299,8 +302,7 @@
                     </button>
 
 
-                    <a href="{{ route('admin.banners.index', ['type' => $type]) }}"
-                        class="btn btn-secondary">
+                    <a href="{{ route('admin.banners.index', ['type' => $type]) }}" class="btn btn-secondary">
 
                         Cancel
 
@@ -319,13 +321,13 @@
 
 
 
-@push('styles')
+@push('style')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
 @endpush
 
 
 
-@push('scripts')
+@push('script')
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
@@ -362,6 +364,31 @@
             );
 
         });
+
+        /*
+            |--------------------------------------------------------------------------
+            | Image Preview
+            |--------------------------------------------------------------------------
+            */
+
+        document.getElementById('image').addEventListener(
+            'change',
+            function() {
+
+                if (this.files && this.files[0]) {
+
+                    const file = this.files[0];
+
+                    document.getElementById('image_label').innerText =
+                        file.name;
+
+                    document.getElementById('uploaded_img').src =
+                        window.URL.createObjectURL(file);
+
+                }
+
+            }
+        );
     </script>
 
 

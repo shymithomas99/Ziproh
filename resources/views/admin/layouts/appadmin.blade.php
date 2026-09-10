@@ -40,75 +40,349 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <!-- Sidebar -->
+        <!-- =====================================================
+            SIDEBAR
+        ====================================================== -->
+
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar"
             style="background: #1d1639;">
 
-            <!-- Sidebar - Brand -->
+
+            <!-- =================================================
+                SIDEBAR BRAND
+            ================================================== -->
+
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('admin.home') }}">
-                <!--<div class="sidebar-brand-icon rotate-n-15">-->
-                <!--    <i class="fas fa-laugh-wink"></i>-->
-                <!--</div>-->
-                <div class="sidebar-brand-text mx-3"><img class="" src="{{ asset('img/logo.png') }}"
-                        style="width: 137px;height: 58px;margin-left: 33px;margin-top: 6px;"></div>
+
+                <div class="sidebar-brand-text mx-3">
+
+                    <img src="{{ asset('img/logo.png') }}"
+                        style="
+                            width: 143px;
+                            height: 46px;
+                            margin-left: 26px;
+                            margin-top: 12px;
+                        ">
+
+                </div>
+
             </a>
 
-            <!-- Divider -->
+
+            <!-- =================================================
+                DIVIDER
+            ================================================== -->
+
             <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
+
+            <!-- =================================================
+                DASHBOARD
+            ================================================== -->
+
             <li class="nav-item {{ request()->is('admin') ? 'active' : '' }}">
+
                 <a class="nav-link" href="{{ route('admin.home') }}">
+
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-            <li class="nav-item {{ request()->is('admin/navigations*') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('admin.navigations.index') }}">
-                    <i class="fas fa-fw fa-bars"></i>
-                    <span>Menu</span>
-                </a>
-            </li>
 
-            <li class="nav-item {{ request()->is('admin/banners*') ? 'active' : '' }}">
-
-                <a class="nav-link {{ request()->is('admin/banners*') ? '' : 'collapsed' }}" href="#"
-                    data-toggle="collapse" data-target="#collapseBanner"
-                    aria-expanded="{{ request()->is('admin/banners*') ? 'true' : 'false' }}"
-                    aria-controls="collapseBanner">
-
-                    <i class="fas fa-fw fa-images"></i>
-
-                    <span>Banners</span>
+                    <span>
+                        Dashboard
+                    </span>
 
                 </a>
 
+            </li>
 
-                <div id="collapseBanner" class="collapse {{ request()->is('admin/banners*') ? 'show' : '' }}"
-                    aria-labelledby="headingBanner" data-parent="#accordionSidebar">
+
+            <!-- =================================================
+                DIVIDER
+            ================================================== -->
+
+            <hr class="sidebar-divider">
+
+
+            <!-- =========================================================
+                HOME VARIABLES
+            ========================================================== -->
+
+            @php
+
+                /*
+                |--------------------------------------------------------------------------
+                | Home Service Lines
+                |--------------------------------------------------------------------------
+                */
+
+                $homeServiceLinesOpen =
+                    request()->is('admin/service-lines/1*') || request()->is('admin/service-lines-intro/1*');
+
+                /*
+                |--------------------------------------------------------------------------
+                | Home Operating Model
+                |--------------------------------------------------------------------------
+                */
+
+                $homeOperatingModelOpen =
+                    request()->is('admin/operating-models/1*') || request()->is('admin/operating-model-intro/1*');
+
+                /*
+                    |--------------------------------------------------------------------------
+                    | Home Connected Journey
+                    |--------------------------------------------------------------------------
+                    */
+
+                $homeConnectedJourneyOpen = request()->is('admin/connected-journeys/1*');
+
+                /*
+                |--------------------------------------------------------------------------
+                | Home Proof Points
+                |--------------------------------------------------------------------------
+                */
+
+                $proofPointsOpen = request()->is('admin/proof-points/1*');
+
+                /*
+                |--------------------------------------------------------------------------
+                | Home Testimonials
+                |--------------------------------------------------------------------------
+                */
+
+                $testimonialsOpen = request()->is('admin/testimonials/1*');
+
+                /*
+                |--------------------------------------------------------------------------
+                | Home partners
+                |--------------------------------------------------------------------------
+                */
+
+                $partnersOpen = request()->is('admin/partners*');
+
+                /*
+                    |--------------------------------------------------------------------------
+                    | Home Parent
+                    |--------------------------------------------------------------------------
+                    */
+
+                $homeMenuOpen =
+                    request()->is('admin/home-about*') ||
+                    request()->is('admin/home-why-ziproh*') ||
+                    $homeServiceLinesOpen ||
+                    $homeOperatingModelOpen ||
+                    $homeConnectedJourneyOpen ||
+                    $proofPointsOpen ||
+                    $testimonialsOpen ||
+                    $partnersOpen;
+
+            @endphp
+
+
+            <!-- =========================================================
+                HOME
+            ========================================================== -->
+
+            <li class="nav-item {{ $homeMenuOpen ? 'active' : '' }}">
+
+
+                <a class="nav-link {{ $homeMenuOpen ? '' : 'collapsed' }}" href="#" data-toggle="collapse"
+                    data-target="#collapseHome" aria-expanded="{{ $homeMenuOpen ? 'true' : 'false' }}"
+                    aria-controls="collapseHome">
+
+                    <i class="fas fa-fw fa-home"></i>
+
+                    <span>
+                        Home
+                    </span>
+
+                </a>
+
+
+                <div id="collapseHome" class="collapse {{ $homeMenuOpen ? 'show' : '' }}" aria-labelledby="headingHome"
+                    data-parent="#accordionSidebar">
+
 
                     <div class="bg-white py-2 collapse-inner rounded">
 
+
                         <h6 class="collapse-header">
-                            Banner Management:
+                            Home:
                         </h6>
 
 
-                        {{-- Home Banner --}}
-                        <a class="collapse-item
-                {{ request()->is('admin/banners/1*') ? 'active' : '' }}"
-                            href="{{ route('admin.banners.index', ['type' => 1]) }}">
+                        <!-- =================================================
+                            ABOUT ZIPROH
+                        ================================================== -->
 
-                            Home Banner
+                        <a class="collapse-item {{ request()->is('admin/home-about*') ? 'active' : '' }}"
+                            href="{{ route('admin.home-about.edit') }}">
+
+                            <i class="fas fa-fw fa-info-circle mr-2"></i>
+
+                            About ZIPROH
 
                         </a>
 
 
-                        {{-- Page Banners --}}
-                        <a class="collapse-item
-                {{ request()->is('admin/banners/2*') ? 'active' : '' }}"
-                            href="{{ route('admin.banners.index', ['type' => 2]) }}">
+                        <!-- =================================================
+                            WHY ZIPROH
+                        ================================================== -->
 
-                            Page Banners
+                        <a class="collapse-item {{ request()->is('admin/home-why-ziproh*') ? 'active' : '' }}"
+                            href="{{ route('admin.home-why-ziproh.index') }}">
+
+                            <i class="fas fa-fw fa-question-circle mr-2"></i>
+
+                            Why ZIPROH
+
+                        </a>
+
+
+                        <!-- =================================================
+                            HOME SERVICE LINES
+                        ================================================== -->
+
+                        <a class="collapse-item {{ $homeServiceLinesOpen ? 'active' : 'collapsed' }}" href="#"
+                            data-toggle="collapse" data-target="#collapseHomeServiceLines"
+                            aria-expanded="{{ $homeServiceLinesOpen ? 'true' : 'false' }}"
+                            aria-controls="collapseHomeServiceLines">
+
+                            <i class="fas fa-fw fa-list mr-2"></i>
+
+                            Service Lines
+
+                        </a>
+
+
+                        <div id="collapseHomeServiceLines"
+                            class="collapse ml-3 {{ $homeServiceLinesOpen ? 'show' : '' }}">
+
+
+                            <div class="bg-light py-2 collapse-inner rounded">
+
+
+                                <!-- Service Lines Intro -->
+
+                                <a class="collapse-item {{ request()->is('admin/service-lines-intro/1*') ? 'active' : '' }}"
+                                    href="{{ route('admin.service-lines-intro.edit', ['type' => 1]) }}">
+
+                                    <i class="fas fa-edit mr-2"></i>
+
+                                    Service Lines Intro
+
+                                </a>
+
+
+                                <!-- Service Lines -->
+
+                                <a class="collapse-item {{ request()->is('admin/service-lines/1*') ? 'active' : '' }}"
+                                    href="{{ route('admin.service-lines.index', ['type' => 1]) }}">
+
+                                    <i class="fas fa-list mr-2"></i>
+
+                                    Service Lines
+
+                                </a>
+
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- =================================================
+                            HOME OPERATING MODEL
+                        ================================================== -->
+
+                        <a class="collapse-item {{ $homeOperatingModelOpen ? 'active' : 'collapsed' }}" href="#"
+                            data-toggle="collapse" data-target="#collapseHomeOperatingModel"
+                            aria-expanded="{{ $homeOperatingModelOpen ? 'true' : 'false' }}"
+                            aria-controls="collapseHomeOperatingModel">
+
+                            <i class="fas fa-fw fa-cogs mr-2"></i>
+
+                            Operating Model
+
+                        </a>
+
+
+                        <div id="collapseHomeOperatingModel"
+                            class="collapse ml-3 {{ $homeOperatingModelOpen ? 'show' : '' }}">
+
+
+                            <div class="bg-light py-2 collapse-inner rounded">
+
+                                <!-- Operating Model Intro -->
+
+                                <a class="collapse-item {{ request()->is('admin/operating-model-intro/1*') ? 'active' : '' }}"
+                                    href="{{ route('admin.operating-model-intro.edit', ['type' => 1]) }}">
+
+                                    <i class="fas fa-edit mr-2"></i>
+
+                                    Operating Model Intro
+
+                                </a>
+
+                                <!-- Operating Model -->
+
+                                <a class="collapse-item {{ request()->is('admin/operating-models/1*') ? 'active' : '' }}"
+                                    href="{{ route('admin.operating-models.index', ['type' => 1]) }}">
+
+                                    <i class="fas fa-list mr-2"></i>
+
+                                    Operating Model
+
+                                </a>
+
+
+
+
+
+                            </div>
+
+                        </div>
+
+                        <!-- =================================================
+                            HOME CONNECTED JOURNEY
+                        ================================================== -->
+
+                        <a class="collapse-item {{ request()->is('admin/connected-journeys/1*') ? 'active' : '' }}"
+                            href="{{ route('admin.connected-journeys.index', ['type' => 1]) }}">
+                            <i class="fas fa-list mr-2"></i>
+                            Connected Journey
+                        </a>
+
+                        <!-- =================================================
+                            HOME PROOF POINTS
+                        ================================================== -->
+                        <a class="collapse-item {{ $proofPointsOpen ? 'active' : '' }}"
+                            href="{{ route('admin.proof-points.index', ['type' => 1]) }}">
+                            <i class="fas fa-fw fa-award mr-2"></i>
+                            Proof Points
+                        </a>
+
+                        <!-- =================================================
+                            HOME TESTIMONIALS
+                        ================================================== -->
+
+                        <a class="collapse-item {{ $testimonialsOpen ? 'active' : '' }}"
+                            href="{{ route('admin.testimonials.index', ['type' => 1]) }}">
+
+                            <i class="fas fa-fw fa-comments mr-2"></i>
+
+                            Testimonials
+
+                        </a>
+
+                        <!-- =================================================
+                            HOME PARTNERS
+                        ================================================== -->
+
+                        <a class="collapse-item {{ $partnersOpen ? 'active' : '' }}"
+                            href="{{ route('admin.partners.index') }}">
+
+                            <i class="fas fa-fw fa-handshake mr-2"></i>
+
+                            Partners
 
                         </a>
 
@@ -118,23 +392,427 @@
 
             </li>
 
-            <!-- Divider -->
+
+            <!-- =========================================================
+                MENU
+            ========================================================== -->
+
+            <li class="nav-item {{ request()->is('admin/navigations*') ? 'active' : '' }}">
+
+                <a class="nav-link" href="{{ route('admin.navigations.index') }}">
+
+                    <i class="fas fa-fw fa-bars"></i>
+
+                    <span>
+                        Menu
+                    </span>
+
+                </a>
+
+            </li>
+
+
+            <!-- =========================================================
+                BANNERS VARIABLES
+            ========================================================== -->
+
+            @php
+
+                $bannerMenuOpen = request()->is('admin/banners/1*') || request()->is('admin/banners/2*');
+
+            @endphp
+
+
+            <!-- =========================================================
+                BANNERS
+            ========================================================== -->
+
+            <li class="nav-item {{ $bannerMenuOpen ? 'active' : '' }}">
+
+
+                <a class="nav-link {{ $bannerMenuOpen ? '' : 'collapsed' }}" href="#" data-toggle="collapse"
+                    data-target="#collapseBanner" aria-expanded="{{ $bannerMenuOpen ? 'true' : 'false' }}"
+                    aria-controls="collapseBanner">
+
+                    <i class="fas fa-fw fa-images"></i>
+
+                    <span>
+                        Banners
+                    </span>
+
+                </a>
+
+
+                <div id="collapseBanner" class="collapse {{ $bannerMenuOpen ? 'show' : '' }}"
+                    aria-labelledby="headingBanner" data-parent="#accordionSidebar">
+
+
+                    <div class="bg-white py-2 collapse-inner rounded">
+
+
+                        <h6 class="collapse-header">
+                            Banner Management:
+                        </h6>
+
+
+                        <!-- =================================================
+                            HOME BANNER
+                        ================================================== -->
+
+                        <a class="collapse-item {{ request()->is('admin/banners/1*') ? 'active' : '' }}"
+                            href="{{ route('admin.banners.index', ['type' => 1]) }}">
+
+                            <i class="fas fa-home mr-2"></i>
+
+                            Home Banner
+
+                        </a>
+
+
+                        <!-- =================================================
+                            PAGE BANNERS
+                        ================================================== -->
+
+                        <a class="collapse-item {{ request()->is('admin/banners/2*') ? 'active' : '' }}"
+                            href="{{ route('admin.banners.index', ['type' => 2]) }}">
+
+                            <i class="fas fa-file-alt mr-2"></i>
+
+                            Page Banners
+
+                        </a>
+
+
+                    </div>
+
+                </div>
+
+            </li>
+
+
+            <!-- =========================================================
+                SERVICE LINES TYPE 2
+            ========================================================== -->
+
+            @php
+
+                $serviceLinesMenuOpen =
+                    request()->is('admin/service-lines/2*') || request()->is('admin/service-lines-intro/2*');
+
+            @endphp
+
+
+            <li class="nav-item {{ $serviceLinesMenuOpen ? 'active' : '' }}">
+
+
+                <a class="nav-link {{ $serviceLinesMenuOpen ? '' : 'collapsed' }}" href="#"
+                    data-toggle="collapse" data-target="#collapseServiceLines"
+                    aria-expanded="{{ $serviceLinesMenuOpen ? 'true' : 'false' }}"
+                    aria-controls="collapseServiceLines">
+
+                    <i class="fas fa-fw fa-list"></i>
+
+                    <span>
+                        Service Lines
+                    </span>
+
+                </a>
+
+
+                <div id="collapseServiceLines" class="collapse {{ $serviceLinesMenuOpen ? 'show' : '' }}"
+                    aria-labelledby="headingServiceLines" data-parent="#accordionSidebar">
+
+
+                    <div class="bg-white py-2 collapse-inner rounded">
+
+
+                        <h6 class="collapse-header">
+                            Service Lines:
+                        </h6>
+
+
+                        <!-- =================================================
+                            SERVICE LINES INTRO
+                        ================================================== -->
+
+                        <a class="collapse-item {{ request()->is('admin/service-lines-intro/2*') ? 'active' : '' }}"
+                            href="{{ route('admin.service-lines-intro.edit', ['type' => 2]) }}">
+
+                            <i class="fas fa-edit mr-2"></i>
+
+                            Service Lines Intro
+
+                        </a>
+
+
+                        <!-- =================================================
+                            SERVICE LINES
+                        ================================================== -->
+
+                        <a class="collapse-item {{ request()->is('admin/service-lines/2*') ? 'active' : '' }}"
+                            href="{{ route('admin.service-lines.index', ['type' => 2]) }}">
+
+                            <i class="fas fa-list mr-2"></i>
+
+                            Service Lines
+
+                        </a>
+
+
+                    </div>
+
+                </div>
+
+            </li>
+
+
+            <!-- =========================================================
+                DISC VARIABLES
+            ========================================================== -->
+
+            @php
+
+                /*
+                |--------------------------------------------------------------------------
+                | DISC Operating Model
+                |--------------------------------------------------------------------------
+                */
+
+                $discOperatingModelOpen =
+                    request()->is('admin/operating-models/2*') || request()->is('admin/operating-model-intro/2*');
+
+                /*
+                |--------------------------------------------------------------------------
+                | DISC Parent
+                |--------------------------------------------------------------------------
+                */
+
+                $discMenuOpen = $discOperatingModelOpen;
+
+            @endphp
+
+
+            <!-- =========================================================
+                DISC™
+            ========================================================== -->
+
+            <li class="nav-item {{ $discMenuOpen ? 'active' : '' }}">
+
+
+                <a class="nav-link {{ $discMenuOpen ? '' : 'collapsed' }}" href="#" data-toggle="collapse"
+                    data-target="#collapseDisc" aria-expanded="{{ $discMenuOpen ? 'true' : 'false' }}"
+                    aria-controls="collapseDisc">
+
+                    <i class="fas fa-fw fa-project-diagram"></i>
+
+                    <span>
+                        DISC™
+                    </span>
+
+                </a>
+
+
+                <div id="collapseDisc" class="collapse {{ $discMenuOpen ? 'show' : '' }}"
+                    aria-labelledby="headingDisc" data-parent="#accordionSidebar">
+
+
+                    <div class="bg-white py-2 collapse-inner rounded">
+
+                        {{--
+                        <h6 class="collapse-header">
+                            DISC™:
+                        </h6>  --}}
+
+
+                        <!-- =================================================
+                            DISC OPERATING MODEL
+                        ================================================== -->
+
+                        <a class="collapse-item {{ $discOperatingModelOpen ? 'active' : 'collapsed' }}"
+                            href="#" data-toggle="collapse" data-target="#collapseDiscOperatingModel"
+                            aria-expanded="{{ $discOperatingModelOpen ? 'true' : 'false' }}"
+                            aria-controls="collapseDiscOperatingModel">
+
+                            <i class="fas fa-fw fa-cogs mr-2"></i>
+
+                            DISC™:
+
+                        </a>
+
+
+                        <div id="collapseDiscOperatingModel"
+                            class="collapse ml-3 {{ $discOperatingModelOpen ? 'show' : '' }}">
+
+
+                            <div class="bg-light py-2 collapse-inner rounded">
+
+                                <!-- Operating Model Intro -->
+
+                                <a class="collapse-item {{ request()->is('admin/operating-model-intro/2*') ? 'active' : '' }}"
+                                    href="{{ route('admin.operating-model-intro.edit', ['type' => 2]) }}">
+
+                                    <i class="fas fa-edit mr-2"></i>
+
+                                    Intro
+
+                                </a>
+
+
+                                <!-- Operating Model -->
+
+                                <a class="collapse-item {{ request()->is('admin/operating-models/2*') ? 'active' : '' }}"
+                                    href="{{ route('admin.operating-models.index', ['type' => 2]) }}">
+
+                                    <i class="fas fa-list mr-2"></i>
+
+                                    Four Stages
+
+                                </a>
+
+
+
+
+
+                            </div>
+
+                        </div>
+
+                        @php
+                            $discConnectedJourneyOpen = request()->is('admin/connected-journeys/2*');
+                        @endphp
+
+                        <a class="collapse-item {{ $discConnectedJourneyOpen ? 'active' : 'collapsed' }}"
+                            href="#" data-toggle="collapse" data-target="#collapseDiscConnectedJourney"
+                            aria-expanded="{{ $discConnectedJourneyOpen ? 'true' : 'false' }}"
+                            aria-controls="collapseDiscConnectedJourney">
+                            <i class="fas fa-fw fa-route mr-2"></i>
+                            Connected Journey
+                        </a>
+
+                        <div id="collapseDiscConnectedJourney"
+                            class="collapse ml-3 {{ $discConnectedJourneyOpen ? 'show' : '' }}">
+                            <div class="bg-light py-2 collapse-inner rounded">
+
+                                <a class="collapse-item {{ request()->is('admin/connected-journeys/2*') ? 'active' : '' }}"
+                                    href="{{ route('admin.connected-journeys.index', ['type' => 2]) }}">
+                                    <i class="fas fa-list mr-2"></i>
+                                    Connected Journey
+                                </a>
+
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+
+                </div>
+
+            </li>
+
+
+            {{-- About ZIPROH Menu --}}
+            @php
+                $aboutMenuOpen =
+                    request()->is('admin/about-page-contents*') ||
+                    request()->is('admin/core-values*') ||
+                    request()->is('admin/what-we-bring*') ||
+                    request()->is('admin/way-of-working*');
+            @endphp
+
+            <li class="nav-item {{ $aboutMenuOpen ? 'active' : '' }}">
+
+                <a class="nav-link {{ $aboutMenuOpen ? '' : 'collapsed' }}" href="#" data-toggle="collapse"
+                    data-target="#collapseAboutZiproh" aria-expanded="{{ $aboutMenuOpen ? 'true' : 'false' }}"
+                    aria-controls="collapseAboutZiproh">
+
+                    <i class="fas fa-fw fa-info-circle"></i>
+
+                    <span>About ZIPROH</span>
+
+                </a>
+
+                <div id="collapseAboutZiproh" class="collapse {{ $aboutMenuOpen ? 'show' : '' }}"
+                    aria-labelledby="headingAboutZiproh" data-parent="#accordionSidebar">
+
+                    <div class="bg-white py-2 collapse-inner rounded">
+
+                        <h6 class="collapse-header">
+                            About Sections:
+                        </h6>
+
+
+                        {{-- About Introduction --}}
+                        <a class="collapse-item
+                {{ request()->is('admin/about-page-contents*') ? 'active' : '' }}"
+                            href="{{ route('admin.about-page-contents.index') }}">
+
+                            About Introduction
+
+                        </a>
+
+
+                        {{-- Core Values --}}
+                        <a class="collapse-item {{ request()->is('admin/core-values*') ? 'active' : '' }}"
+                            href="{{ route('admin.core-values.index') }}">
+
+                            Core Values
+
+                        </a>
+
+
+                        {{-- What We Bring --}}
+                        <a class="collapse-item {{ request()->is('admin/what-we-bring*') ? 'active' : '' }}"
+                            href="{{ route('admin.what-we-bring.index') }}">
+
+                            What We Bring
+
+                        </a>
+
+
+                        {{-- Way of Working --}}
+                        <a class="collapse-item {{ request()->is('admin/way-of-working*') ? 'active' : '' }}"
+                            href="{{ route('admin.way-of-working.index') }}">
+
+                            Way of Working
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </li>
+
+
+
+
+            <!-- =========================================================
+                DIVIDER
+            ========================================================== -->
+
             <hr class="sidebar-divider">
 
-            <!-- Nav Item - Tables -->
-            {{--  routes here  --}}
 
+            <!-- =========================================================
+                SIDEBAR TOGGLER
+            ========================================================== -->
 
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+
+                <button class="rounded-circle border-0" id="sidebarToggle">
+                </button>
+
             </div>
 
+
         </ul>
-        <!-- End of Sidebar -->
+
+
+        <!-- =========================================================
+            END SIDEBAR
+        ========================================================== -->
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
